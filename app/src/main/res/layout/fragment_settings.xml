@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_categories"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <CheckBox
+                android:id="@+id/categoryHealth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/category_health"/>
+
+            <CheckBox
+                android:id="@+id/categoryRecreation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/category_recreation"/>
+
+            <CheckBox
+                android:id="@+id/categoryFact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/category_fact"/>
+
+            <CheckBox
+                android:id="@+id/categoryScary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/category_scary"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_settings"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <CheckBox
+                android:id="@+id/notificationSound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_sound"/>
+
+            <CheckBox
+                android:id="@+id/notificationVibrate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_vibrate"/>
+
+            <CheckBox
+                android:id="@+id/notificationBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_banner"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout> 
