@@ -1,12 +1,12 @@
 I am looking to implement a Diabetes Notification app that allows for users to get notifications daily reminding them to take care of their diabetes.
 
-As such, the app will serve as the settings for the user to configure notification frequency and content.
+As such, the app will serve as the settings for the user to configure notification frequency and content. Please leave TODOs around your code so that if multiple prompts are needed, you can easily find the parts you need to implement.
 
 Please implement the following:
 
 - Robust notification system. It should work when the app is not running or when the device is restarted. Notifications should appear as banners, make a notification sound effect, and appear on the lock screen.
 
-- Basic scheduling. In the app, the user should be able to set notifications to come at a certain time every day, specify a window for notifications to appear (for example, a 2-hour window from 6pm to 8pm where a notification could appear at any point, around dinner time), etc. I imagine this having a stack-based implementation where the user can just add rules one after the other. 
+- Basic scheduling. In the app, the user should be able to set notifications to come at a certain time every day, specify a window for notifications to appear (for example, a 2-hour window from 6pm to 8pm where a notification could appear at any point, around dinner time), etc. I imagine this having a stack-based implementation where the user can just add rules one after the other. Be sure to account for not allowing duplicates.
 
 - Pre defined string loading. The application should load strings from multiple categories. There will be categories for health, recreation, fact, and scary. And each of these categories will have strings that are relevant to the category name. The user should also be able to toggle different categories, for instance, if they are not fond of the "scary" category.
 
