@@ -15,4 +15,12 @@
     <string name="upgrade_to_premium">Upgrade to Premium</string>
     <string name="premium_description">Get access to all notification messages and unlimited rules!</string>
     <string name="premium_price">$1.99</string>
+    <string name="exact_time">Exact Time</string>
+    <string name="time_window">Time Window</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="add_notification_rule">Add Notification Rule</string>
+    <string name="premium_features">Premium Features</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 </resources>
