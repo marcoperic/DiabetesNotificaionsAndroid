@@ -3,11 +3,17 @@ package com.mperic.diabetesnotificaions.notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.google.gson.reflect.TypeToken;
 import com.mperic.diabetesnotificaions.model.NotificationRule;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,7 +30,22 @@ public class SchedulingManager {
         this.context = context;
         this.prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         this.notificationHelper = new NotificationHelper(context);
-        this.gson = new Gson();
+        
+        // Create Gson instance with LocalTime type adapter
+        this.gson = new GsonBuilder()
+            .registerTypeAdapter(LocalTime.class, new TypeAdapter<LocalTime>() {
+                @Override
+                public void write(JsonWriter out, LocalTime value) throws IOException {
+                    out.value(value != null ? value.format(DateTimeFormatter.ISO_LOCAL_TIME) : null);
+                }
+
+                @Override
+                public LocalTime read(JsonReader in) throws IOException {
+                    String time = in.nextString();
+                    return time != null ? LocalTime.parse(time) : null;
+                }
+            })
+            .create();
     }
 
     public void saveRule(NotificationRule rule) {
