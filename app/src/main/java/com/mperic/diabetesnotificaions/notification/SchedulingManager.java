@@ -12,8 +12,10 @@ import com.mperic.diabetesnotificaions.model.NotificationRule;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -86,7 +88,7 @@ public class SchedulingManager {
         prefs.edit().putString(KEY_RULES, rulesJson).commit(); // Using commit() instead of apply() for immediate write
     }
 
-    private void scheduleRule(NotificationRule rule) {
+    public void scheduleRule(NotificationRule rule) {
         if (!rule.isEnabled()) return;
 
         long triggerTime;
@@ -106,8 +108,15 @@ public class SchedulingManager {
     }
 
     private long calculateNextTriggerTime(LocalTime time) {
-        // TODO: Implement proper time calculation logic
-        return System.currentTimeMillis() + 60000; // For testing: triggers after 1 minute
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime targetDateTime = LocalDateTime.of(now.toLocalDate(), time);
+        
+        // If the target time has already passed today, schedule for tomorrow
+        if (targetDateTime.isBefore(now)) {
+            targetDateTime = targetDateTime.plusDays(1);
+        }
+        
+        return targetDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
     public void rescheduleAllRules() {
@@ -115,5 +124,20 @@ public class SchedulingManager {
         for (NotificationRule rule : rules) {
             scheduleRule(rule);
         }
+    }
+
+    public NotificationRule getRuleById(int id) {
+        List<NotificationRule> rules = getRules();
+        for (NotificationRule rule : rules) {
+            if (rule.getId() == id) {
+                return rule;
+            }
+        }
+        return null;
+    }
+
+    public void scheduleTestNotification() {
+        long triggerTime = System.currentTimeMillis() + 5000; // 5 seconds from now
+        notificationHelper.scheduleNotification(triggerTime, "Test notification - this should appear in 5 seconds!", 999);
     }
 } 

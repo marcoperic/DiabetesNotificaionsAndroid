@@ -3,6 +3,7 @@ package com.mperic.diabetesnotificaions.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,13 @@ public class RulesFragment extends Fragment {
 
         addRuleButton = view.findViewById(R.id.addRuleButton);
         addRuleButton.setOnClickListener(v -> showAddRuleDialog());
+
+        Button testButton = view.findViewById(R.id.testNotificationButton);
+        testButton.setOnClickListener(v -> {
+            Log.d("RulesFragment", "Test button clicked");
+            schedulingManager.scheduleTestNotification();
+            Toast.makeText(requireContext(), "Test notification scheduled for 5 seconds from now", Toast.LENGTH_SHORT).show();
+        });
 
         return view;
     }

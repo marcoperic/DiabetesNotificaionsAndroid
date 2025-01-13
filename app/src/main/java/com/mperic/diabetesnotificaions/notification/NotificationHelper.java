@@ -43,10 +43,12 @@ public class NotificationHelper {
 
     public void showNotification(String message, int notificationId) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, DiabetesApp.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background) // TODO: update this with the application icon NOTIFICATION notif
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Diabetes Reminder")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
 

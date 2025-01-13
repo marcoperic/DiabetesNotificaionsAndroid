@@ -21,12 +21,17 @@ public class DiabetesApp extends Application {
                     "Diabetes Notifications",
                     NotificationManager.IMPORTANCE_HIGH
             );
-            channel.setDescription("Channel for diabetes reminders");
+            channel.setDescription("Daily diabetes reminders");
             channel.enableVibration(true);
+            channel.setVibrationPattern(new long[]{0, 500, 200, 500}); // Vibration pattern
+            channel.setLockscreenVisibility(NotificationManager.IMPORTANCE_HIGH); // Show on lock screen
+            channel.enableLights(true);
             channel.setShowBadge(true);
             
             NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
+            if (manager != null) {
+                manager.createNotificationChannel(channel);
+            }
         }
     }
 } 
