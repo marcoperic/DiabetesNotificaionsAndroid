@@ -193,16 +193,29 @@ public class RulesFragment extends Fragment {
     }
 
     private void showTimePickerDialog(TextInputEditText timeInput) {
+        // Get current time from input if it exists
+        LocalTime currentTime = LocalTime.of(12, 0);
+        if (timeInput.getText() != null && !timeInput.getText().toString().isEmpty()) {
+            try {
+                currentTime = LocalTime.parse(timeInput.getText().toString(), 
+                    DateTimeFormatter.ofPattern("HH:mm"));
+            } catch (Exception e) {
+                // Use default time if parsing fails
+            }
+        }
+
         MaterialTimePicker picker = new MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(12)
-            .setMinute(0)
+            .setTimeFormat(TimeFormat.CLOCK_12H)  // Always use 12-hour format
+            .setHour(currentTime.getHour())
+            .setMinute(currentTime.getMinute())
             .setTitleText("Select time")
             .build();
 
         picker.addOnPositiveButtonClickListener(v -> {
             LocalTime selectedTime = LocalTime.of(picker.getHour(), picker.getMinute());
-            timeInput.setText(selectedTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+            String formattedTime = selectedTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+            timeInput.setText(formattedTime);
+            
             updateWindowDuration();
         });
 

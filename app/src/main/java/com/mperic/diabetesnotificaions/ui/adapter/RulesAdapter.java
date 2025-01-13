@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHolder> {
     private List<NotificationRule> rules;
     private final OnRuleActionListener listener;
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm a");
 
     public interface OnRuleActionListener {
         void onRuleEnabled(NotificationRule rule, boolean enabled);
@@ -62,7 +62,6 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
         holder.enableSwitch.setChecked(rule.isEnabled());
         holder.enableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> 
             listener.onRuleEnabled(rule, isChecked));
-
         holder.deleteButton.setOnClickListener(v -> listener.onRuleDeleted(rule));
     }
 
