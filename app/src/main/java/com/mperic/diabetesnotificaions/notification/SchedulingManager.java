@@ -31,7 +31,6 @@ public class SchedulingManager {
         this.prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         this.notificationHelper = new NotificationHelper(context);
         
-        // Create Gson instance with LocalTime type adapter
         this.gson = new GsonBuilder()
             .registerTypeAdapter(LocalTime.class, new TypeAdapter<LocalTime>() {
                 @Override
@@ -50,7 +49,19 @@ public class SchedulingManager {
 
     public void saveRule(NotificationRule rule) {
         List<NotificationRule> rules = getRules();
-        rules.add(rule);
+        // Check if rule already exists and update it
+        boolean updated = false;
+        for (int i = 0; i < rules.size(); i++) {
+            if (rules.get(i).getId() == rule.getId()) {
+                rules.set(i, rule);
+                updated = true;
+                break;
+            }
+        }
+        // If rule doesn't exist, add it
+        if (!updated) {
+            rules.add(rule);
+        }
         saveRules(rules);
         scheduleRule(rule);
     }
@@ -59,18 +70,20 @@ public class SchedulingManager {
         List<NotificationRule> rules = getRules();
         rules.removeIf(r -> r.getId() == rule.getId());
         saveRules(rules);
-        // TODO: Cancel existing alarms for this rule
+        // Cancel the alarm for this rule
+        notificationHelper.cancelNotification(rule.getId());
     }
 
     public List<NotificationRule> getRules() {
         String rulesJson = prefs.getString(KEY_RULES, "[]");
-        Type type = new TypeToken<List<NotificationRule>>(){}.getType();
-        return gson.fromJson(rulesJson, type);
+        Type type = new TypeToken<ArrayList<NotificationRule>>(){}.getType();
+        List<NotificationRule> rules = gson.fromJson(rulesJson, type);
+        return new ArrayList<>(rules != null ? rules : new ArrayList<>());
     }
 
     private void saveRules(List<NotificationRule> rules) {
         String rulesJson = gson.toJson(rules);
-        prefs.edit().putString(KEY_RULES, rulesJson).apply();
+        prefs.edit().putString(KEY_RULES, rulesJson).commit(); // Using commit() instead of apply() for immediate write
     }
 
     private void scheduleRule(NotificationRule rule) {

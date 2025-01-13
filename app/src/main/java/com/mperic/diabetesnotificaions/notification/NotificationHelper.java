@@ -52,4 +52,19 @@ public class NotificationHelper {
 
         notificationManager.notify(notificationId, builder.build());
     }
+
+    public void cancelNotification(int notificationId) {
+        // Cancel the pending notification
+        Intent intent = new Intent(context, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                notificationId,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+        alarmManager.cancel(pendingIntent);
+        
+        // Remove any existing notification
+        notificationManager.cancel(notificationId);
+    }
 } 

@@ -15,6 +15,7 @@ import com.mperic.diabetesnotificaions.model.NotificationRule;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ArrayList;
 
 public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHolder> {
     private List<NotificationRule> rules;
@@ -27,12 +28,12 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
     }
 
     public RulesAdapter(List<NotificationRule> rules, OnRuleActionListener listener) {
-        this.rules = rules;
+        this.rules = new ArrayList<>(rules);
         this.listener = listener;
     }
 
     public void updateRules(List<NotificationRule> newRules) {
-        this.rules = newRules;
+        this.rules = new ArrayList<>(newRules);
         notifyDataSetChanged();
     }
 
