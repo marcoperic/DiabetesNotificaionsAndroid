@@ -73,11 +73,12 @@ public class RulesFragment extends Fragment {
         addRuleButton.setOnClickListener(v -> showAddRuleDialog());
 
         Button testButton = view.findViewById(R.id.testNotificationButton);
-        testButton.setOnClickListener(v -> {
-            Log.d("RulesFragment", "Test button clicked");
-            schedulingManager.scheduleTestNotification();
-            Toast.makeText(requireContext(), "Test notification scheduled for 5 seconds from now", Toast.LENGTH_SHORT).show();
-        });
+        testButton.setVisibility(View.GONE);
+//        testButton.setOnClickListener(v -> {
+//            Log.d("RulesFragment", "Test button clicked");
+//            schedulingManager.scheduleTestNotification();
+//            Toast.makeText(requireContext(), "Test notification scheduled for 5 seconds from now", Toast.LENGTH_SHORT).show();
+//        });
 
         return view;
     }
