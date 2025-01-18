@@ -50,9 +50,16 @@ public class RulesFragment extends Fragment {
         schedulingManager = new SchedulingManager(requireContext());
         preferenceManager = new PreferenceManager(requireContext());
 
+        // Initialize views
         rulesRecyclerView = view.findViewById(R.id.rulesRecyclerView);
-        rulesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        addRuleButton = view.findViewById(R.id.addRuleButton);
+        TextView emptyStateText = view.findViewById(R.id.emptyStateText);
+        View factCard = view.findViewById(R.id.factCard);
+        TextView factText = factCard.findViewById(R.id.factText);
+        TextView factCategory = factCard.findViewById(R.id.factCategory);
 
+        // Set up RecyclerView
+        rulesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         rulesAdapter = new RulesAdapter(schedulingManager.getRules(), new RulesAdapter.OnRuleActionListener() {
             @Override
             public void onRuleEnabled(NotificationRule rule, boolean enabled) {
@@ -69,18 +76,38 @@ public class RulesFragment extends Fragment {
         
         rulesRecyclerView.setAdapter(rulesAdapter);
 
-        addRuleButton = view.findViewById(R.id.addRuleButton);
+        // Update empty state visibility
+        updateEmptyState(emptyStateText);
+
+        // Set up random fact
+        updateFactCard(factText, factCategory);
+
         addRuleButton.setOnClickListener(v -> showAddRuleDialog());
 
-        Button testButton = view.findViewById(R.id.testNotificationButton);
-        testButton.setVisibility(View.GONE);
-//        testButton.setOnClickListener(v -> {
-//            Log.d("RulesFragment", "Test button clicked");
-//            schedulingManager.scheduleTestNotification();
-//            Toast.makeText(requireContext(), "Test notification scheduled for 5 seconds from now", Toast.LENGTH_SHORT).show();
-//        });
-
         return view;
+    }
+
+    private void updateEmptyState(TextView emptyStateText) {
+        boolean isEmpty = schedulingManager.getRules().isEmpty();
+        emptyStateText.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        rulesRecyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+    }
+
+    private void updateFactCard(TextView factText, TextView factCategory) {
+        // TODO: Replace with actual fact loading logic
+        factText.setText("Regular exercise can help regulate blood sugar levels and improve insulin sensitivity.");
+        factCategory.setText("Health Tip");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateRulesList();
+    }
+
+    private void updateRulesList() {
+        rulesAdapter.updateRules(schedulingManager.getRules());
+        updateEmptyState(requireView().findViewById(R.id.emptyStateText));
     }
 
     private void showAddRuleDialog() {
@@ -252,9 +279,5 @@ public class RulesFragment extends Fragment {
                 remainingMinutes > 0 ? " " + remainingMinutes + " minutes" : "");
             durationText.setText(duration);
         }
-    }
-
-    private void updateRulesList() {
-        rulesAdapter.updateRules(schedulingManager.getRules());
     }
 } 
