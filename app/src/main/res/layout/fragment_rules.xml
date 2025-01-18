@@ -8,24 +8,31 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingTop="16dp"
+        android:paddingBottom="88dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:minHeight="0dp">
 
             <include
                 android:id="@+id/factCard"
-                layout="@layout/layout_fact_card"/>
+                layout="@layout/layout_fact_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="16dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rulesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:clipToPadding="false"
-                android:paddingBottom="80dp"/>
+                android:clipToPadding="false"/>
 
             <TextView
                 android:id="@+id/emptyStateText"
@@ -34,6 +41,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="32dp"
+                android:layout_marginTop="32dp"
                 android:text="No notification rules yet.\nTap the + button to create one!"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textColor="?attr/colorPrimary"
@@ -47,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:layout_margin="16dp"
+        android:layout_margin="24dp"
         android:text="@string/add_rule"
         app:icon="@drawable/ic_add"/>
 
