@@ -104,7 +104,11 @@ public class SchedulingManager {
             triggerTime = calculateNextTriggerTime(rule.getStartTime());
         }
 
-        notificationHelper.scheduleNotification(triggerTime, "Time to check your diabetes!", rule.getId());
+        String notificationText = rule.isUseNoteAsNotification() && rule.getNote() != null && !rule.getNote().isEmpty()
+            ? rule.getNote()
+            : "Time to check your diabetes!";
+        
+        notificationHelper.scheduleNotification(triggerTime, notificationText, rule.getId());
     }
 
     private long calculateNextTriggerTime(LocalTime time) {

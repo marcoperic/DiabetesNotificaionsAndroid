@@ -11,6 +11,7 @@ public class NotificationRule {
     private boolean isEnabled;
     private String note;
     private int color;
+    private boolean useNoteAsNotification;
     
     public NotificationRule(int id, LocalTime startTime, LocalTime endTime, boolean isWindowBased) {
         this.id = id;
@@ -33,4 +34,8 @@ public class NotificationRule {
     public void setNote(String note) { this.note = note; }
     public int getColor() { return color; }
     public void setColor(int color) { this.color = color; }
+    public boolean isUseNoteAsNotification() { return useNoteAsNotification; }
+    public void setUseNoteAsNotification(boolean useNoteAsNotification) { 
+        this.useNoteAsNotification = useNoteAsNotification; 
+    }
 } 

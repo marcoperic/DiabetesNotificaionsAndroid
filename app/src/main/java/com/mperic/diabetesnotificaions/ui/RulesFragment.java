@@ -170,6 +170,8 @@ public class RulesFragment extends Fragment {
             }
         });
 
+        CheckBox useNoteAsNotification = dialogView.findViewById(R.id.useNoteAsNotification);
+
         AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.RoundedDialog)
                 .setTitle(R.string.add_notification_rule)
                 .setView(dialogView)
@@ -232,6 +234,7 @@ public class RulesFragment extends Fragment {
                         isWindowBased
                 );
                 rule.setNote(note);
+                rule.setUseNoteAsNotification(useNoteAsNotification.isChecked());
                 
                 schedulingManager.saveRule(rule);
                 updateRulesList();
@@ -323,6 +326,9 @@ public class RulesFragment extends Fragment {
             colorRadioGroup.check(R.id.colorDefault);
         }
         
+        CheckBox useNoteAsNotification = dialogView.findViewById(R.id.useNoteAsNotification);
+        useNoteAsNotification.setChecked(rule.isUseNoteAsNotification());
+        
         AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.RoundedDialog)
                 .setTitle("Edit Rule")
                 .setView(dialogView)
@@ -346,6 +352,8 @@ public class RulesFragment extends Fragment {
                         selectedColor = Color.WHITE;
                     }
                     rule.setColor(selectedColor);
+                    
+                    rule.setUseNoteAsNotification(useNoteAsNotification.isChecked());
                     
                     schedulingManager.saveRule(rule);
                     updateRulesList();
