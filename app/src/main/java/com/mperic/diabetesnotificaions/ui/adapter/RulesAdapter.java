@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.mperic.diabetesnotificaions.R;
 import com.mperic.diabetesnotificaions.model.NotificationRule;
@@ -50,8 +51,8 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
     public void onBindViewHolder(@NonNull RuleViewHolder holder, int position) {
         NotificationRule rule = rules.get(position);
         
-        // Set card background color directly
-//        holder.itemView.findViewById().setBackgroundColor(rule.getColor());
+        // Set card background color on the MaterialCardView
+        ((MaterialCardView) holder.itemView).setCardBackgroundColor(rule.getColor());
         
         if (rule.isWindowBased()) {
             holder.timeText.setText(String.format("%s - %s",
