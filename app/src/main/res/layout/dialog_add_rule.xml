@@ -166,6 +166,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/category_scary"
                     android:enabled="false"/>
+
+                <CheckBox
+                    android:id="@+id/categoryMotivation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_motivation"
+                    android:enabled="false"/>
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -191,4 +198,42 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/use_note_as_notification"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Card Color"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/colorRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/colorBlue"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle_blue"
+            android:button="@null"
+            android:layout_margin="4dp"/>
+
+        <RadioButton
+            android:id="@+id/colorGreen"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/circle_green"
+            android:button="@null"
+            android:layout_margin="4dp"/>
+    </RadioGroup>
+
+    <View
+        android:id="@+id/colorPreview"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/rule_color_blue"/>
 </LinearLayout> 

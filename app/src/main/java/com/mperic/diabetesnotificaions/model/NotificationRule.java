@@ -34,8 +34,10 @@ public class NotificationRule {
     public void setNote(String note) { this.note = note; }
     public int getColor() { return color; }
     public void setColor(int color) { this.color = color; }
-    public boolean isUseNoteAsNotification() { return useNoteAsNotification; }
-    public void setUseNoteAsNotification(boolean useNoteAsNotification) { 
-        this.useNoteAsNotification = useNoteAsNotification; 
+    public boolean isUseNoteAsNotification() { 
+        return useNoteAsNotification; 
+    }
+    public void setUseNoteAsNotification(boolean useNoteAsNotification, boolean isPremium) { 
+        this.useNoteAsNotification = isPremium ? useNoteAsNotification : false;
     }
 } 

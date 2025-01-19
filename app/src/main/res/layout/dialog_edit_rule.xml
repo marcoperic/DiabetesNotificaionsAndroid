@@ -80,4 +80,11 @@
             android:button="@null"
             android:layout_margin="4dp"/>
     </RadioGroup>
+
+    <View
+        android:id="@+id/colorPreview"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/rule_color_blue"/>
 </LinearLayout> 

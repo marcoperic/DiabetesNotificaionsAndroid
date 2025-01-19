@@ -11,6 +11,7 @@ public class PreferenceManager {
     private static final String KEY_CATEGORY_RECREATION = "category_recreation";
     private static final String KEY_CATEGORY_FACT = "category_fact";
     private static final String KEY_CATEGORY_SCARY = "category_scary";
+    private static final String KEY_CATEGORY_MOTIVATION = "category_motivation";
     private static final String KEY_NOTIFICATION_SOUND = "notification_sound";
     private static final String KEY_NOTIFICATION_VIBRATE = "notification_vibrate";
     private static final String KEY_NOTIFICATION_BANNER = "notification_banner";
@@ -66,6 +67,7 @@ public class PreferenceManager {
             case RECREATION: return KEY_CATEGORY_RECREATION;
             case FACT: return KEY_CATEGORY_FACT;
             case SCARY: return KEY_CATEGORY_SCARY;
+            case MOTIVATION: return KEY_CATEGORY_MOTIVATION;
             default: throw new IllegalArgumentException("Unknown category");
         }
     }

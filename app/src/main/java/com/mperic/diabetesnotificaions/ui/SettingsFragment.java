@@ -17,6 +17,7 @@ public class SettingsFragment extends Fragment {
     private CheckBox categoryHealth, categoryRecreation, categoryFact, categoryScary;
     private CheckBox notificationSound, notificationVibrate, notificationBanner;
     private CheckBox swapNoteTime;
+    private CheckBox categoryMotivation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +44,8 @@ public class SettingsFragment extends Fragment {
         swapNoteTime = view.findViewById(R.id.swapNoteTime);
         
         swapNoteTime.setChecked(preferenceManager.isNoteTimeSwapped());
+        
+        categoryMotivation = view.findViewById(R.id.categoryMotivation);
     }
 
     private void setupListeners() {

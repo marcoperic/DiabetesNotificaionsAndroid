@@ -9,6 +9,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.google.gson.reflect.TypeToken;
 import com.mperic.diabetesnotificaions.model.NotificationRule;
+import com.mperic.diabetesnotificaions.util.PreferenceManager;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -104,9 +105,14 @@ public class SchedulingManager {
             triggerTime = calculateNextTriggerTime(rule.getStartTime());
         }
 
-        String notificationText = rule.isUseNoteAsNotification() && rule.getNote() != null && !rule.getNote().isEmpty()
-            ? rule.getNote()
-            : "Time to check your diabetes!";
+        boolean isPremium = new PreferenceManager(context).isPremium();
+        String notificationText;
+        
+        if (isPremium && rule.isUseNoteAsNotification() && rule.getNote() != null && !rule.getNote().isEmpty()) {
+            notificationText = rule.getNote();
+        } else {
+            notificationText = "Time to check your diabetes!";
+        }
         
         notificationHelper.scheduleNotification(triggerTime, notificationText, rule.getId());
     }

@@ -147,12 +147,14 @@ public class RulesFragment extends Fragment {
         CheckBox categoryRecreation = dialogView.findViewById(R.id.categoryRecreation);
         CheckBox categoryFact = dialogView.findViewById(R.id.categoryFact);
         CheckBox categoryScary = dialogView.findViewById(R.id.categoryScary);
+        CheckBox categoryMotivation = dialogView.findViewById(R.id.categoryMotivation);
         
         // Enable premium features if user is premium
         boolean isPremium = preferenceManager.isPremium();
         categoryHealth.setEnabled(isPremium);
         categoryRecreation.setEnabled(isPremium);
         categoryScary.setEnabled(isPremium);
+        categoryMotivation.setEnabled(isPremium);
 
         categoriesHeader.setOnClickListener(v -> {
             boolean isExpanded = categoriesContent.getVisibility() == View.VISIBLE;
@@ -171,6 +173,17 @@ public class RulesFragment extends Fragment {
         });
 
         CheckBox useNoteAsNotification = dialogView.findViewById(R.id.useNoteAsNotification);
+        
+        useNoteAsNotification.setChecked(false);
+        
+        useNoteAsNotification.setOnClickListener(v -> {
+            if (!isPremium && ((CheckBox)v).isChecked()) {
+                ((CheckBox)v).setChecked(false);
+                Toast.makeText(requireContext(), 
+                    R.string.premium_required_note, 
+                    Toast.LENGTH_SHORT).show();
+            }
+        });
 
         AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.RoundedDialog)
                 .setTitle(R.string.add_notification_rule)
@@ -234,7 +247,7 @@ public class RulesFragment extends Fragment {
                         isWindowBased
                 );
                 rule.setNote(note);
-                rule.setUseNoteAsNotification(useNoteAsNotification.isChecked());
+                rule.setUseNoteAsNotification(useNoteAsNotification.isChecked(), isPremium);
                 
                 schedulingManager.saveRule(rule);
                 updateRulesList();
@@ -312,7 +325,7 @@ public class RulesFragment extends Fragment {
         int purpleColor = requireContext().getColor(R.color.rule_color_purple);
         int orangeColor = requireContext().getColor(R.color.rule_color_orange);
         
-        // Select current color
+        // Set current color
         int currentColor = rule.getColor();
         if (currentColor == blueColor) {
             colorRadioGroup.check(R.id.colorBlue);
@@ -327,16 +340,27 @@ public class RulesFragment extends Fragment {
         }
         
         CheckBox useNoteAsNotification = dialogView.findViewById(R.id.useNoteAsNotification);
-        useNoteAsNotification.setChecked(rule.isUseNoteAsNotification());
+        boolean isPremium = preferenceManager.isPremium();
+        
+        useNoteAsNotification.setChecked(rule.isUseNoteAsNotification() && isPremium);
+        
+        useNoteAsNotification.setOnClickListener(v -> {
+            if (!isPremium && ((CheckBox)v).isChecked()) {
+                ((CheckBox)v).setChecked(false);
+                Toast.makeText(requireContext(), 
+                    R.string.premium_required_note, 
+                    Toast.LENGTH_SHORT).show();
+            }
+        });
         
         AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.RoundedDialog)
                 .setTitle("Edit Rule")
                 .setView(dialogView)
                 .setPositiveButton("Save", (dialogInterface, i) -> {
                     // Save note
-                    rule.setNote(noteInput.getText() != null ? 
+                    rule.setNote(noteInput.getText() != null ?
                         noteInput.getText().toString() : "");
-                    
+
                     // Save color
                     int selectedColor;
                     int checkedId = colorRadioGroup.getCheckedRadioButtonId();
@@ -352,15 +376,15 @@ public class RulesFragment extends Fragment {
                         selectedColor = Color.WHITE;
                     }
                     rule.setColor(selectedColor);
-                    
-                    rule.setUseNoteAsNotification(useNoteAsNotification.isChecked());
-                    
+
+                    rule.setUseNoteAsNotification(useNoteAsNotification.isChecked(), isPremium);
+
                     schedulingManager.saveRule(rule);
                     updateRulesList();
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
-                
+
         dialog.show();
     }
 } 

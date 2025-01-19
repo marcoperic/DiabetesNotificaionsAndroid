@@ -49,6 +49,19 @@
                 android:text="@string/category_scary"/>
 
             <CheckBox
+                android:id="@+id/categoryMotivation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/category_motivation"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ui_settings"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <CheckBox
                 android:id="@+id/swapNoteTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

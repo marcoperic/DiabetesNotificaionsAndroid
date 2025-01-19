@@ -5,7 +5,8 @@ public class NotificationMessage {
         HEALTH,
         RECREATION,
         FACT,
-        SCARY
+        SCARY,
+        MOTIVATION
     }
 
     private String content;
