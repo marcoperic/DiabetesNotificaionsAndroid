@@ -2,6 +2,7 @@ package com.mperic.diabetesnotificaions.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,6 +72,11 @@ public class RulesFragment extends Fragment {
             public void onRuleDeleted(NotificationRule rule) {
                 schedulingManager.removeRule(rule);
                 updateRulesList();
+            }
+
+            @Override
+            public void onRuleClicked(NotificationRule rule) {
+                showEditRuleDialog(rule);
             }
         });
         
@@ -283,5 +289,66 @@ public class RulesFragment extends Fragment {
                 remainingMinutes > 0 ? " " + remainingMinutes + " minutes" : "");
             durationText.setText(duration);
         }
+    }
+
+    private void showEditRuleDialog(NotificationRule rule) {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_rule, null);
+        TextInputEditText noteInput = dialogView.findViewById(R.id.noteInput);
+        RadioGroup colorRadioGroup = dialogView.findViewById(R.id.colorRadioGroup);
+        
+        // Set current values
+        noteInput.setText(rule.getNote());
+        
+        // Get color resources
+        int blueColor = requireContext().getColor(R.color.rule_color_blue);
+        int greenColor = requireContext().getColor(R.color.rule_color_green);
+        int purpleColor = requireContext().getColor(R.color.rule_color_purple);
+        int orangeColor = requireContext().getColor(R.color.rule_color_orange);
+        
+        // Select current color
+        int currentColor = rule.getColor();
+        if (currentColor == blueColor) {
+            colorRadioGroup.check(R.id.colorBlue);
+        } else if (currentColor == greenColor) {
+            colorRadioGroup.check(R.id.colorGreen);
+        } else if (currentColor == purpleColor) {
+            colorRadioGroup.check(R.id.colorPurple);
+        } else if (currentColor == orangeColor) {
+            colorRadioGroup.check(R.id.colorOrange);
+        } else {
+            colorRadioGroup.check(R.id.colorDefault);
+        }
+        
+        AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.RoundedDialog)
+                .setTitle("Edit Rule")
+                .setView(dialogView)
+                .setPositiveButton("Save", (dialogInterface, i) -> {
+                    // Save note
+                    rule.setNote(noteInput.getText() != null ? 
+                        noteInput.getText().toString() : "");
+                    
+                    // Save color
+                    int selectedColor;
+                    int checkedId = colorRadioGroup.getCheckedRadioButtonId();
+                    if (checkedId == R.id.colorBlue) {
+                        selectedColor = blueColor;
+                    } else if (checkedId == R.id.colorGreen) {
+                        selectedColor = greenColor;
+                    } else if (checkedId == R.id.colorPurple) {
+                        selectedColor = purpleColor;
+                    } else if (checkedId == R.id.colorOrange) {
+                        selectedColor = orangeColor;
+                    } else {
+                        selectedColor = Color.WHITE;
+                    }
+                    rule.setColor(selectedColor);
+                    
+                    schedulingManager.saveRule(rule);
+                    updateRulesList();
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+                
+        dialog.show();
     }
 } 

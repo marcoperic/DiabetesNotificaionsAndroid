@@ -10,23 +10,23 @@
     app:cardCornerRadius="12dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="380dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:padding="20dp">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/timeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
             <TextView
                 android:id="@+id/typeText"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                android:textColor="?android:textColorSecondary"/>
+                android:textColor="?android:textColorSecondary" />
 
             <TextView
                 android:id="@+id/noteText"
@@ -43,29 +43,29 @@
                 android:layout_marginTop="4dp"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:textColor="?android:textColorSecondary"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/enableSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp" />
 
             <ImageButton
                 android:id="@+id/deleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Delete rule"
                 android:padding="8dp"
-                android:src="@drawable/ic_delete"
-                android:contentDescription="Delete rule"/>
+                android:src="@drawable/ic_delete" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView> 

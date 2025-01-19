@@ -25,6 +25,7 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
     public interface OnRuleActionListener {
         void onRuleEnabled(NotificationRule rule, boolean enabled);
         void onRuleDeleted(NotificationRule rule);
+        void onRuleClicked(NotificationRule rule);
     }
 
     public RulesAdapter(List<NotificationRule> rules, OnRuleActionListener listener) {
@@ -49,6 +50,9 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
     public void onBindViewHolder(@NonNull RuleViewHolder holder, int position) {
         NotificationRule rule = rules.get(position);
         
+        // Set card background color directly
+//        holder.itemView.findViewById().setBackgroundColor(rule.getColor());
+        
         if (rule.isWindowBased()) {
             holder.timeText.setText(String.format("%s - %s",
                     rule.getStartTime().format(TIME_FORMATTER),
@@ -71,6 +75,9 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
         holder.enableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> 
             listener.onRuleEnabled(rule, isChecked));
         holder.deleteButton.setOnClickListener(v -> listener.onRuleDeleted(rule));
+
+        // Make the whole card clickable
+        holder.itemView.setOnClickListener(v -> listener.onRuleClicked(rule));
     }
 
     @Override

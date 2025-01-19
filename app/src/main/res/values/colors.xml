@@ -8,4 +8,9 @@
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
     <color name="divider">#BDBDBD</color>
+    <color name="rule_color_default">#FFFFFF</color>
+    <color name="rule_color_blue">#E3F2FD</color>
+    <color name="rule_color_green">#E8F5E9</color>
+    <color name="rule_color_purple">#F3E5F5</color>
+    <color name="rule_color_orange">#FFF3E0</color>
 </resources>
