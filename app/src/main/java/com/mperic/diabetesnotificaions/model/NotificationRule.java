@@ -8,6 +8,7 @@ public class NotificationRule {
     private LocalTime endTime;
     private boolean isWindowBased;
     private boolean isEnabled;
+    private String note;
     
     public NotificationRule(int id, LocalTime startTime, LocalTime endTime, boolean isWindowBased) {
         this.id = id;
@@ -15,6 +16,7 @@ public class NotificationRule {
         this.endTime = endTime;
         this.isWindowBased = isWindowBased;
         this.isEnabled = true;
+        this.note = "";
     }
 
     // Getters and setters
@@ -24,4 +26,6 @@ public class NotificationRule {
     public boolean isWindowBased() { return isWindowBased; }
     public boolean isEnabled() { return isEnabled; }
     public void setEnabled(boolean enabled) { isEnabled = enabled; }
+    public String getNote() { return note; }
+    public void setNote(String note) { this.note = note; }
 } 

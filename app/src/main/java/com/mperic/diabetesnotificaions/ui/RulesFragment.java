@@ -212,12 +212,16 @@ public class RulesFragment extends Fragment {
                     return;
                 }
                 
+                TextInputEditText noteInput = dialogView.findViewById(R.id.noteInput);
+                String note = noteInput.getText() != null ? noteInput.getText().toString().trim() : "";
+
                 NotificationRule rule = new NotificationRule(
-                        new Random().nextInt(10000), // Generate random ID
+                        new Random().nextInt(10000),
                         startTime,
                         endTime,
                         isWindowBased
                 );
+                rule.setNote(note);
                 
                 schedulingManager.saveRule(rule);
                 updateRulesList();

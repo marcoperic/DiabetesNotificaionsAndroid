@@ -59,6 +59,14 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
             holder.typeText.setText("Exact Time");
         }
 
+        // Handle note visibility and text
+        if (rule.getNote() != null && !rule.getNote().isEmpty()) {
+            holder.noteText.setVisibility(View.VISIBLE);
+            holder.noteText.setText(rule.getNote());
+        } else {
+            holder.noteText.setVisibility(View.GONE);
+        }
+
         holder.enableSwitch.setChecked(rule.isEnabled());
         holder.enableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> 
             listener.onRuleEnabled(rule, isChecked));
@@ -73,6 +81,7 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
     static class RuleViewHolder extends RecyclerView.ViewHolder {
         TextView timeText;
         TextView typeText;
+        TextView noteText;
         SwitchMaterial enableSwitch;
         ImageButton deleteButton;
 
@@ -80,6 +89,7 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
             super(itemView);
             timeText = itemView.findViewById(R.id.timeText);
             typeText = itemView.findViewById(R.id.typeText);
+            noteText = itemView.findViewById(R.id.noteText);
             enableSwitch = itemView.findViewById(R.id.enableSwitch);
             deleteButton = itemView.findViewById(R.id.deleteButton);
         }
