@@ -14,6 +14,7 @@ public class PreferenceManager {
     private static final String KEY_NOTIFICATION_SOUND = "notification_sound";
     private static final String KEY_NOTIFICATION_VIBRATE = "notification_vibrate";
     private static final String KEY_NOTIFICATION_BANNER = "notification_banner";
+    private static final String KEY_SWAP_NOTE_TIME = "swap_note_time";
 
     private final SharedPreferences prefs;
 
@@ -49,6 +50,14 @@ public class PreferenceManager {
 
     public boolean isNotificationBannerEnabled() {
         return prefs.getBoolean(KEY_NOTIFICATION_BANNER, true);
+    }
+
+    public boolean isNoteTimeSwapped() {
+        return prefs.getBoolean(KEY_SWAP_NOTE_TIME, false);
+    }
+
+    public void setNoteTimeSwapped(boolean swapped) {
+        prefs.edit().putBoolean(KEY_SWAP_NOTE_TIME, swapped).apply();
     }
 
     private String getCategoryKey(NotificationMessage.Category category) {

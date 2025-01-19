@@ -1,5 +1,6 @@
 package com.mperic.diabetesnotificaions.ui.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.mperic.diabetesnotificaions.R;
 import com.mperic.diabetesnotificaions.model.NotificationRule;
+import com.mperic.diabetesnotificaions.util.PreferenceManager;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHolder> {
     private List<NotificationRule> rules;
     private final OnRuleActionListener listener;
+    private final PreferenceManager preferenceManager;
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("h:mm a");
 
     public interface OnRuleActionListener {
@@ -29,9 +32,10 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
         void onRuleClicked(NotificationRule rule);
     }
 
-    public RulesAdapter(List<NotificationRule> rules, OnRuleActionListener listener) {
+    public RulesAdapter(List<NotificationRule> rules, OnRuleActionListener listener, Context context) {
         this.rules = new ArrayList<>(rules);
         this.listener = listener;
+        this.preferenceManager = new PreferenceManager(context);
     }
 
     public void updateRules(List<NotificationRule> newRules) {
@@ -50,27 +54,37 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
     @Override
     public void onBindViewHolder(@NonNull RuleViewHolder holder, int position) {
         NotificationRule rule = rules.get(position);
-        
-        // Set card background color on the MaterialCardView
-        ((MaterialCardView) holder.itemView).setCardBackgroundColor(rule.getColor());
+        String timeText;
         
         if (rule.isWindowBased()) {
-            holder.timeText.setText(String.format("%s - %s",
+            timeText = String.format("%s - %s",
                     rule.getStartTime().format(TIME_FORMATTER),
-                    rule.getEndTime().format(TIME_FORMATTER)));
-            holder.typeText.setText("Time Window");
+                    rule.getEndTime().format(TIME_FORMATTER));
         } else {
-            holder.timeText.setText(rule.getStartTime().format(TIME_FORMATTER));
-            holder.typeText.setText("Exact Time");
+            timeText = rule.getStartTime().format(TIME_FORMATTER);
         }
-
-        // Handle note visibility and text
-        if (rule.getNote() != null && !rule.getNote().isEmpty()) {
+        
+        String typeText = rule.isWindowBased() ? "Time Window" : "Exact Time";
+        String noteText = rule.getNote();
+        boolean hasNote = noteText != null && !noteText.isEmpty();
+        
+        if (preferenceManager.isNoteTimeSwapped() && hasNote) {
+            // Swap the time and note display
+            holder.timeText.setText(noteText);
+            holder.noteText.setText(timeText);
             holder.noteText.setVisibility(View.VISIBLE);
-            holder.noteText.setText(rule.getNote());
         } else {
-            holder.noteText.setVisibility(View.GONE);
+            // Normal display
+            holder.timeText.setText(timeText);
+            if (hasNote) {
+                holder.noteText.setText(noteText);
+                holder.noteText.setVisibility(View.VISIBLE);
+            } else {
+                holder.noteText.setVisibility(View.GONE);
+            }
         }
+        
+        holder.typeText.setText(typeText);
 
         holder.enableSwitch.setChecked(rule.isEnabled());
         holder.enableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> 

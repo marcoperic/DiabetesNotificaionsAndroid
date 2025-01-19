@@ -47,6 +47,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/category_scary"/>
+
+            <CheckBox
+                android:id="@+id/swapNoteTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Show notes as primary text"
+                android:layout_marginTop="8dp"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

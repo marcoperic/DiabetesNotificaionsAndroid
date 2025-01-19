@@ -61,24 +61,28 @@ public class RulesFragment extends Fragment {
 
         // Set up RecyclerView
         rulesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        rulesAdapter = new RulesAdapter(schedulingManager.getRules(), new RulesAdapter.OnRuleActionListener() {
-            @Override
-            public void onRuleEnabled(NotificationRule rule, boolean enabled) {
-                rule.setEnabled(enabled);
-                schedulingManager.saveRule(rule);
-            }
+        rulesAdapter = new RulesAdapter(
+            schedulingManager.getRules(), 
+            new RulesAdapter.OnRuleActionListener() {
+                @Override
+                public void onRuleEnabled(NotificationRule rule, boolean enabled) {
+                    rule.setEnabled(enabled);
+                    schedulingManager.saveRule(rule);
+                }
 
-            @Override
-            public void onRuleDeleted(NotificationRule rule) {
-                schedulingManager.removeRule(rule);
-                updateRulesList();
-            }
+                @Override
+                public void onRuleDeleted(NotificationRule rule) {
+                    schedulingManager.removeRule(rule);
+                    updateRulesList();
+                }
 
-            @Override
-            public void onRuleClicked(NotificationRule rule) {
-                showEditRuleDialog(rule);
-            }
-        });
+                @Override
+                public void onRuleClicked(NotificationRule rule) {
+                    showEditRuleDialog(rule);
+                }
+            },
+            requireContext()
+        );
         
         rulesRecyclerView.setAdapter(rulesAdapter);
 
