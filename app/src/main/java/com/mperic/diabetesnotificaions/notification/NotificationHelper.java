@@ -97,25 +97,23 @@ public class NotificationHelper {
             return rule.getNote();
         }
 
-        // Get enabled categories
-        List<NotificationMessage.Category> enabledCategories = new ArrayList<>();
-        for (NotificationMessage.Category category : NotificationMessage.Category.values()) {
-            if (preferenceManager.isCategoryEnabled(category)) {
-                enabledCategories.add(category);
-            }
+        List<NotificationMessage.Category> enabledCategories;
+        if (rule.hasCustomCategories()) {
+            enabledCategories = new ArrayList<>(rule.getEnabledCategories());
+        } else {
+            enabledCategories = preferenceManager.getEnabledCategories();
         }
 
         if (enabledCategories.isEmpty()) {
             return "Time to check your diabetes!";
         }
 
-        // Select random category and get message
         Random random = new Random();
         NotificationMessage.Category selectedCategory = 
             enabledCategories.get(random.nextInt(enabledCategories.size()));
         
-        MessageRepository repository = MessageRepository.getInstance(context);
-        String message = repository.getRandomMessage(selectedCategory, preferenceManager.isPremium());
+        String message = MessageRepository.getInstance(context)
+            .getRandomMessage(selectedCategory, preferenceManager.isPremium());
         
         return message != null ? message : "Time to check your diabetes!";
     }

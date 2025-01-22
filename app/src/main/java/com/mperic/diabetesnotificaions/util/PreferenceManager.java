@@ -3,6 +3,8 @@ package com.mperic.diabetesnotificaions.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.mperic.diabetesnotificaions.model.NotificationMessage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PreferenceManager {
     private static final String PREF_NAME = "DiabetesNotificationPrefs";
@@ -82,5 +84,15 @@ public class PreferenceManager {
             case MOTIVATION: return KEY_CATEGORY_MOTIVATION;
             default: throw new IllegalArgumentException("Unknown category");
         }
+    }
+
+    public List<NotificationMessage.Category> getEnabledCategories() {
+        List<NotificationMessage.Category> enabledCategories = new ArrayList<>();
+        for (NotificationMessage.Category category : NotificationMessage.Category.values()) {
+            if (isCategoryEnabled(category)) {
+                enabledCategories.add(category);
+            }
+        }
+        return enabledCategories;
     }
 } 
