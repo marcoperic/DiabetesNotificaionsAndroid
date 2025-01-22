@@ -10,16 +10,26 @@ import androidx.core.app.NotificationCompat;
 
 import com.mperic.diabetesnotificaions.DiabetesApp;
 import com.mperic.diabetesnotificaions.R;
+import com.mperic.diabetesnotificaions.data.MessageRepository;
+import com.mperic.diabetesnotificaions.model.NotificationMessage;
+import com.mperic.diabetesnotificaions.model.NotificationRule;
+import com.mperic.diabetesnotificaions.util.PreferenceManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class NotificationHelper {
     private final Context context;
     private final NotificationManager notificationManager;
     private final AlarmManager alarmManager;
+    private final PreferenceManager preferenceManager;
 
     public NotificationHelper(Context context) {
         this.context = context;
         this.notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        this.preferenceManager = new PreferenceManager(context);
     }
 
     public void scheduleNotification(long triggerTime, String message, int notificationId) {
@@ -49,10 +59,21 @@ public class NotificationHelper {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setAutoCancel(true)
-                .setDefaults(NotificationCompat.DEFAULT_ALL);
+                .setAutoCancel(true);
 
-        notificationManager.notify(notificationId, builder.build());
+        // Apply user preferences
+        int defaults = 0;
+        if (preferenceManager.isNotificationSoundEnabled()) {
+            defaults |= NotificationCompat.DEFAULT_SOUND;
+        }
+        if (preferenceManager.isNotificationVibrateEnabled()) {
+            defaults |= NotificationCompat.DEFAULT_VIBRATE;
+        }
+        builder.setDefaults(defaults);
+
+        if (preferenceManager.isNotificationBannerEnabled()) {
+            notificationManager.notify(notificationId, builder.build());
+        }
     }
 
     public void cancelNotification(int notificationId) {
@@ -68,5 +89,34 @@ public class NotificationHelper {
         
         // Remove any existing notification
         notificationManager.cancel(notificationId);
+    }
+
+    public String getMessageForRule(NotificationRule rule) {
+        if (preferenceManager.isPremium() && rule.isUseNoteAsNotification() && 
+            rule.getNote() != null && !rule.getNote().isEmpty()) {
+            return rule.getNote();
+        }
+
+        // Get enabled categories
+        List<NotificationMessage.Category> enabledCategories = new ArrayList<>();
+        for (NotificationMessage.Category category : NotificationMessage.Category.values()) {
+            if (preferenceManager.isCategoryEnabled(category)) {
+                enabledCategories.add(category);
+            }
+        }
+
+        if (enabledCategories.isEmpty()) {
+            return "Time to check your diabetes!";
+        }
+
+        // Select random category and get message
+        Random random = new Random();
+        NotificationMessage.Category selectedCategory = 
+            enabledCategories.get(random.nextInt(enabledCategories.size()));
+        
+        MessageRepository repository = MessageRepository.getInstance(context);
+        String message = repository.getRandomMessage(selectedCategory, preferenceManager.isPremium());
+        
+        return message != null ? message : "Time to check your diabetes!";
     }
 } 

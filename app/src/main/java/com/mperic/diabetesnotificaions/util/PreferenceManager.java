@@ -61,6 +61,18 @@ public class PreferenceManager {
         prefs.edit().putBoolean(KEY_SWAP_NOTE_TIME, swapped).apply();
     }
 
+    public void setNotificationSoundEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_NOTIFICATION_SOUND, enabled).apply();
+    }
+
+    public void setNotificationVibrateEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_NOTIFICATION_VIBRATE, enabled).apply();
+    }
+
+    public void setNotificationBannerEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_NOTIFICATION_BANNER, enabled).apply();
+    }
+
     private String getCategoryKey(NotificationMessage.Category category) {
         switch (category) {
             case HEALTH: return KEY_CATEGORY_HEALTH;
