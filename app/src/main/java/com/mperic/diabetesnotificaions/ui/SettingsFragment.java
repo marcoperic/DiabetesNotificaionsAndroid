@@ -8,7 +8,9 @@ import android.widget.CheckBox;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
 import com.mperic.diabetesnotificaions.R;
+import com.mperic.diabetesnotificaions.billing.BillingManager;
 import com.mperic.diabetesnotificaions.util.PreferenceManager;
 import com.mperic.diabetesnotificaions.model.NotificationMessage;
 
@@ -18,10 +20,23 @@ public class SettingsFragment extends Fragment {
     private CheckBox notificationSound, notificationVibrate, notificationBanner;
     private CheckBox swapNoteTime;
     private CheckBox categoryMotivation;
+    private BillingManager billingManager;
+    private View view;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        billingManager = new BillingManager(requireContext());
+        
+        // Observe premium status changes
+        billingManager.isPremiumLiveData.observe(this, isPremium -> {
+            updatePremiumUI(isPremium);
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        view = inflater.inflate(R.layout.fragment_settings, container, false);
         
         preferenceManager = new PreferenceManager(requireContext());
         
@@ -49,6 +64,11 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupListeners() {
+        MaterialButton upgradeButton = view.findViewById(R.id.upgradeButton);
+        upgradeButton.setOnClickListener(v -> {
+            billingManager.launchBillingFlow(requireActivity());
+        });
+
         // TODO: Implement checkbox listeners
         swapNoteTime.setOnCheckedChangeListener((buttonView, isChecked) -> {
             preferenceManager.setNoteTimeSwapped(isChecked);
@@ -57,5 +77,16 @@ public class SettingsFragment extends Fragment {
                 .findFragmentByTag("f0")  // Tag for first fragment in ViewPager
                 .onResume();
         });
+    }
+
+    private void updatePremiumUI(boolean isPremium) {
+        MaterialButton upgradeButton = view.findViewById(R.id.upgradeButton);
+        upgradeButton.setVisibility(isPremium ? View.GONE : View.VISIBLE);
+        
+        // Enable premium features
+        categoryHealth.setEnabled(isPremium);
+        categoryRecreation.setEnabled(isPremium);
+        categoryScary.setEnabled(isPremium);
+        categoryMotivation.setEnabled(isPremium);
     }
 } 
