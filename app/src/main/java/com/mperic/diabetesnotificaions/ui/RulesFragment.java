@@ -155,24 +155,26 @@ public class RulesFragment extends Fragment {
         
         // Category checkboxes
         CheckBox categoryHealth = dialogView.findViewById(R.id.categoryHealth);
-        CheckBox categoryRecreation = dialogView.findViewById(R.id.categoryRecreation);
         CheckBox categoryFact = dialogView.findViewById(R.id.categoryFact);
         CheckBox categoryScary = dialogView.findViewById(R.id.categoryScary);
         CheckBox categoryMotivation = dialogView.findViewById(R.id.categoryMotivation);
         
         // Set initial states based on settings
-        categoryHealth.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.HEALTH));
-        categoryRecreation.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.RECREATION));
-        categoryFact.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.FACT));
-        categoryScary.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.SCARY));
-        categoryMotivation.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.MOTIVATION));
-
-        // Enable premium features if user is premium
         boolean isPremium = preferenceManager.isPremium();
+
+        // For non-premium users, only FACT is available
+        categoryFact.setEnabled(true);
+        categoryFact.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.FACT));
+
+        // Other categories depend on premium status
         categoryHealth.setEnabled(isPremium);
-        categoryRecreation.setEnabled(isPremium);
+        categoryHealth.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.HEALTH));
+
         categoryScary.setEnabled(isPremium);
+        categoryScary.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.SCARY));
+
         categoryMotivation.setEnabled(isPremium);
+        categoryMotivation.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.MOTIVATION));
 
         categoriesHeader.setOnClickListener(v -> {
             boolean isExpanded = categoriesContent.getVisibility() == View.VISIBLE;
@@ -269,7 +271,6 @@ public class RulesFragment extends Fragment {
                 
                 Set<NotificationMessage.Category> selectedCategories = new HashSet<>();
                 if (categoryHealth.isChecked()) selectedCategories.add(NotificationMessage.Category.HEALTH);
-                if (categoryRecreation.isChecked()) selectedCategories.add(NotificationMessage.Category.RECREATION);
                 if (categoryFact.isChecked()) selectedCategories.add(NotificationMessage.Category.FACT);
                 if (categoryScary.isChecked()) selectedCategories.add(NotificationMessage.Category.SCARY);
                 if (categoryMotivation.isChecked()) selectedCategories.add(NotificationMessage.Category.MOTIVATION);

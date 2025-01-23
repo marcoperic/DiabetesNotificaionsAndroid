@@ -5,9 +5,8 @@
     <string name="add_rule">Add Rule</string>
     <string name="notification_categories">Notification Categories</string>
     <string name="ui_settings">User interface</string>">
-    <string name="category_health">Health Tips</string>
-    <string name="category_recreation">Recreation</string>
     <string name="category_fact">Facts</string>
+    <string name="category_health">Health Tips</string>
     <string name="category_scary">Scary Facts</string>
     <string name="category_motivation">Motivation</string>
     <string name="notification_settings">Notification Settings</string>

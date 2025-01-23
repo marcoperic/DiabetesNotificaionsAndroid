@@ -47,10 +47,18 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initializeViews(View view) {
-        categoryHealth = view.findViewById(R.id.categoryHealth);
-        categoryRecreation = view.findViewById(R.id.categoryRecreation);
         categoryFact = view.findViewById(R.id.categoryFact);
+        categoryHealth = view.findViewById(R.id.categoryHealth);
         categoryScary = view.findViewById(R.id.categoryScary);
+        categoryMotivation = view.findViewById(R.id.categoryMotivation);
+        
+        // Set initial states
+        categoryFact.setChecked(true);
+        categoryFact.setEnabled(true);
+        
+        categoryHealth.setEnabled(false);
+        categoryScary.setEnabled(false);
+        categoryMotivation.setEnabled(false);
         
         notificationSound = view.findViewById(R.id.notificationSound);
         notificationVibrate = view.findViewById(R.id.notificationVibrate);
@@ -59,8 +67,6 @@ public class SettingsFragment extends Fragment {
         swapNoteTime = view.findViewById(R.id.swapNoteTime);
         
         swapNoteTime.setChecked(preferenceManager.isNoteTimeSwapped());
-        
-        categoryMotivation = view.findViewById(R.id.categoryMotivation);
     }
 
     private void setupListeners() {
@@ -71,7 +77,6 @@ public class SettingsFragment extends Fragment {
 
         // Category checkboxes
         setupCategoryCheckbox(categoryHealth, NotificationMessage.Category.HEALTH);
-        setupCategoryCheckbox(categoryRecreation, NotificationMessage.Category.RECREATION);
         setupCategoryCheckbox(categoryFact, NotificationMessage.Category.FACT);
         setupCategoryCheckbox(categoryScary, NotificationMessage.Category.SCARY);
         setupCategoryCheckbox(categoryMotivation, NotificationMessage.Category.MOTIVATION);
@@ -101,7 +106,16 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupCategoryCheckbox(CheckBox checkbox, NotificationMessage.Category category) {
-        checkbox.setChecked(preferenceManager.isCategoryEnabled(category));
+        if (category == NotificationMessage.Category.FACT) {
+            // Fact category is always enabled and checked by default
+            checkbox.setChecked(true);
+            checkbox.setEnabled(true);
+        } else {
+            // Other categories depend on premium status and preferences
+            checkbox.setChecked(preferenceManager.isCategoryEnabled(category));
+            checkbox.setEnabled(preferenceManager.isPremium());
+        }
+        
         checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             preferenceManager.setCategoryEnabled(category, isChecked);
         });
@@ -113,7 +127,6 @@ public class SettingsFragment extends Fragment {
         
         // Enable premium features
         categoryHealth.setEnabled(isPremium);
-        categoryRecreation.setEnabled(isPremium);
         categoryScary.setEnabled(isPremium);
         categoryMotivation.setEnabled(isPremium);
     }

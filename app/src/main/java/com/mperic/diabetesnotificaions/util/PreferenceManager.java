@@ -9,11 +9,11 @@ import java.util.List;
 public class PreferenceManager {
     private static final String PREF_NAME = "DiabetesNotificationPrefs";
     private static final String KEY_PREMIUM = "is_premium";
-    private static final String KEY_CATEGORY_HEALTH = "category_health";
-    private static final String KEY_CATEGORY_RECREATION = "category_recreation";
     private static final String KEY_CATEGORY_FACT = "category_fact";
+    private static final String KEY_CATEGORY_HEALTH = "category_health";
     private static final String KEY_CATEGORY_SCARY = "category_scary";
     private static final String KEY_CATEGORY_MOTIVATION = "category_motivation";
+    private static final String KEY_CATEGORY_RECREATION = "category_recreation";
     private static final String KEY_NOTIFICATION_SOUND = "notification_sound";
     private static final String KEY_NOTIFICATION_VIBRATE = "notification_vibrate";
     private static final String KEY_NOTIFICATION_BANNER = "notification_banner";
@@ -34,8 +34,15 @@ public class PreferenceManager {
     }
 
     public boolean isCategoryEnabled(NotificationMessage.Category category) {
-        String key = getCategoryKey(category);
-        return prefs.getBoolean(key, true);
+        if (!isPremium()) {
+            // For non-premium users, only FACT category can be enabled/disabled
+            if (category == NotificationMessage.Category.FACT) {
+                return prefs.getBoolean(getCategoryKey(category), true);
+            }
+            return false;
+        }
+        // For premium users, all categories can be enabled/disabled
+        return prefs.getBoolean(getCategoryKey(category), category == NotificationMessage.Category.FACT);
     }
 
     public void setCategoryEnabled(NotificationMessage.Category category, boolean enabled) {
@@ -77,9 +84,8 @@ public class PreferenceManager {
 
     private String getCategoryKey(NotificationMessage.Category category) {
         switch (category) {
-            case HEALTH: return KEY_CATEGORY_HEALTH;
-            case RECREATION: return KEY_CATEGORY_RECREATION;
             case FACT: return KEY_CATEGORY_FACT;
+            case HEALTH: return KEY_CATEGORY_HEALTH;
             case SCARY: return KEY_CATEGORY_SCARY;
             case MOTIVATION: return KEY_CATEGORY_MOTIVATION;
             default: throw new IllegalArgumentException("Unknown category");

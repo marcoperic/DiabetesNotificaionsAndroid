@@ -2,9 +2,8 @@ package com.mperic.diabetesnotificaions.model;
 
 public class NotificationMessage {
     public enum Category {
-        HEALTH,
-        RECREATION,
         FACT,
+        HEALTH,
         SCARY,
         MOTIVATION
     }
