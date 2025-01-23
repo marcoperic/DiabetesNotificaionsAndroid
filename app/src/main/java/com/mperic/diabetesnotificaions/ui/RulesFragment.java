@@ -31,6 +31,7 @@ import com.mperic.diabetesnotificaions.notification.SchedulingManager;
 import com.mperic.diabetesnotificaions.util.PreferenceManager;
 import com.mperic.diabetesnotificaions.ui.adapter.RulesAdapter;
 import com.mperic.diabetesnotificaions.model.NotificationMessage;
+import com.mperic.diabetesnotificaions.util.FactManager;
 
 import java.time.LocalTime;
 import java.util.Random;
@@ -46,6 +47,7 @@ public class RulesFragment extends Fragment {
     private PreferenceManager preferenceManager;
     private View dialogView;
     private RulesAdapter rulesAdapter;
+    private TextView greetingText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class RulesFragment extends Fragment {
         View factCard = view.findViewById(R.id.factCard);
         TextView factText = factCard.findViewById(R.id.factText);
         TextView factCategory = factCard.findViewById(R.id.factCategory);
+        greetingText = view.findViewById(R.id.greetingText);
 
         // Set up RecyclerView
         rulesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -107,9 +110,14 @@ public class RulesFragment extends Fragment {
     }
 
     private void updateFactCard(TextView factText, TextView factCategory) {
-        // TODO: Replace with actual fact loading logic
-        factText.setText("Regular exercise can help regulate blood sugar levels and improve insulin sensitivity.");
-        factCategory.setText("Health Tip");
+        // Set greeting
+
+        greetingText.setText(FactManager.getGreeting());
+        
+        // Set random fact
+        FactManager.Fact fact = FactManager.getRandomFact();
+        factText.setText(fact.getContent());
+        factCategory.setText(fact.getCategory());
     }
 
     @Override
