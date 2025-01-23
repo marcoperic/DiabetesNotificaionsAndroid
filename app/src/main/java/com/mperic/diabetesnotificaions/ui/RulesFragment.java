@@ -30,11 +30,14 @@ import com.mperic.diabetesnotificaions.model.NotificationRule;
 import com.mperic.diabetesnotificaions.notification.SchedulingManager;
 import com.mperic.diabetesnotificaions.util.PreferenceManager;
 import com.mperic.diabetesnotificaions.ui.adapter.RulesAdapter;
+import com.mperic.diabetesnotificaions.model.NotificationMessage;
 
 import java.time.LocalTime;
 import java.util.Random;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RulesFragment extends Fragment {
     private RecyclerView rulesRecyclerView;
@@ -149,6 +152,13 @@ public class RulesFragment extends Fragment {
         CheckBox categoryScary = dialogView.findViewById(R.id.categoryScary);
         CheckBox categoryMotivation = dialogView.findViewById(R.id.categoryMotivation);
         
+        // Set initial states based on settings
+        categoryHealth.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.HEALTH));
+        categoryRecreation.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.RECREATION));
+        categoryFact.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.FACT));
+        categoryScary.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.SCARY));
+        categoryMotivation.setChecked(preferenceManager.isCategoryEnabled(NotificationMessage.Category.MOTIVATION));
+
         // Enable premium features if user is premium
         boolean isPremium = preferenceManager.isPremium();
         categoryHealth.setEnabled(isPremium);
@@ -248,6 +258,15 @@ public class RulesFragment extends Fragment {
                 );
                 rule.setNote(note);
                 rule.setUseNoteAsNotification(useNoteAsNotification.isChecked(), isPremium);
+                
+                Set<NotificationMessage.Category> selectedCategories = new HashSet<>();
+                if (categoryHealth.isChecked()) selectedCategories.add(NotificationMessage.Category.HEALTH);
+                if (categoryRecreation.isChecked()) selectedCategories.add(NotificationMessage.Category.RECREATION);
+                if (categoryFact.isChecked()) selectedCategories.add(NotificationMessage.Category.FACT);
+                if (categoryScary.isChecked()) selectedCategories.add(NotificationMessage.Category.SCARY);
+                if (categoryMotivation.isChecked()) selectedCategories.add(NotificationMessage.Category.MOTIVATION);
+
+                rule.setEnabledCategories(selectedCategories);
                 
                 schedulingManager.saveRule(rule);
                 updateRulesList();

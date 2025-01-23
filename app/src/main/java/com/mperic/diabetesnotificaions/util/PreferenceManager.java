@@ -3,6 +3,8 @@ package com.mperic.diabetesnotificaions.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.mperic.diabetesnotificaions.model.NotificationMessage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PreferenceManager {
     private static final String PREF_NAME = "DiabetesNotificationPrefs";
@@ -61,6 +63,18 @@ public class PreferenceManager {
         prefs.edit().putBoolean(KEY_SWAP_NOTE_TIME, swapped).apply();
     }
 
+    public void setNotificationSoundEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_NOTIFICATION_SOUND, enabled).apply();
+    }
+
+    public void setNotificationVibrateEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_NOTIFICATION_VIBRATE, enabled).apply();
+    }
+
+    public void setNotificationBannerEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_NOTIFICATION_BANNER, enabled).apply();
+    }
+
     private String getCategoryKey(NotificationMessage.Category category) {
         switch (category) {
             case HEALTH: return KEY_CATEGORY_HEALTH;
@@ -70,5 +84,15 @@ public class PreferenceManager {
             case MOTIVATION: return KEY_CATEGORY_MOTIVATION;
             default: throw new IllegalArgumentException("Unknown category");
         }
+    }
+
+    public List<NotificationMessage.Category> getEnabledCategories() {
+        List<NotificationMessage.Category> enabledCategories = new ArrayList<>();
+        for (NotificationMessage.Category category : NotificationMessage.Category.values()) {
+            if (isCategoryEnabled(category)) {
+                enabledCategories.add(category);
+            }
+        }
+        return enabledCategories;
     }
 } 

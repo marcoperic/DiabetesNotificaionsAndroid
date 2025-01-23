@@ -106,13 +106,7 @@ public class SchedulingManager {
         }
 
         boolean isPremium = new PreferenceManager(context).isPremium();
-        String notificationText;
-        
-        if (isPremium && rule.isUseNoteAsNotification() && rule.getNote() != null && !rule.getNote().isEmpty()) {
-            notificationText = rule.getNote();
-        } else {
-            notificationText = "Time to check your diabetes!";
-        }
+        String notificationText = notificationHelper.getMessageForRule(rule);
         
         notificationHelper.scheduleNotification(triggerTime, notificationText, rule.getId());
     }

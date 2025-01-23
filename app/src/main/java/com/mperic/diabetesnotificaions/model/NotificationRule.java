@@ -2,6 +2,8 @@ package com.mperic.diabetesnotificaions.model;
 
 import java.time.LocalTime;
 import android.graphics.Color;
+import java.util.Set;
+import java.util.HashSet;
 
 public class NotificationRule {
     private int id;
@@ -12,6 +14,7 @@ public class NotificationRule {
     private String note;
     private int color;
     private boolean useNoteAsNotification;
+    private Set<NotificationMessage.Category> enabledCategories;
     
     public NotificationRule(int id, LocalTime startTime, LocalTime endTime, boolean isWindowBased) {
         this.id = id;
@@ -21,6 +24,7 @@ public class NotificationRule {
         this.isEnabled = true;
         this.note = "";
         this.color = Color.WHITE; // Default color
+        this.enabledCategories = new HashSet<>();
     }
 
     // Getters and setters
@@ -39,5 +43,17 @@ public class NotificationRule {
     }
     public void setUseNoteAsNotification(boolean useNoteAsNotification, boolean isPremium) { 
         this.useNoteAsNotification = isPremium ? useNoteAsNotification : false;
+    }
+
+    public Set<NotificationMessage.Category> getEnabledCategories() {
+        return enabledCategories;
+    }
+
+    public void setEnabledCategories(Set<NotificationMessage.Category> categories) {
+        this.enabledCategories = categories;
+    }
+
+    public boolean hasCustomCategories() {
+        return !enabledCategories.isEmpty();
     }
 } 

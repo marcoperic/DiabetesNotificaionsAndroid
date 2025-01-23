@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Health Messages -->
+    <string-array name="health_messages">
+        <item>Regular exercise can help regulate blood sugar levels and improve insulin sensitivity.</item>
+        <item>A 1% reduction in A1C can reduce diabetes-related complications by 21%.</item>
+        <item>Drinking water helps your kidneys flush out excess blood sugar through urine.</item>
+        <item>Stress hormones can raise blood sugar levels even without eating.</item>
+        <item>Getting 7-9 hours of sleep helps regulate insulin sensitivity.</item>
+        <item>Fiber slows down digestion and helps prevent blood sugar spikes.</item>
+        <item>Regular foot checks can prevent serious complications from unnoticed injuries.</item>
+        <item>Monitoring blood pressure is crucial as diabetes increases heart disease risk.</item>
+        <item>Eating protein with carbs can help slow down glucose absorption.</item>
+        <item>Cinnamon may help improve insulin sensitivity naturally.</item>
+        <item>Regular eye exams can detect early signs of diabetic retinopathy.</item>
+        <item>Walking for 10 minutes after meals can lower blood sugar levels.</item>
+        <item>Magnesium-rich foods can help improve insulin function.</item>
+        <item>Apple cider vinegar before meals may reduce post-meal blood sugar spikes.</item>
+        <item>Berries have a low glycemic index and are rich in antioxidants.</item>
+        <item>Morning blood sugar tends to be higher due to the dawn phenomenon.</item>
+        <item>Regular dental check-ups help prevent diabetes-related gum disease.</item>
+        <item>Staying hydrated helps your body use insulin more effectively.</item>
+        <item>Cold temperatures can affect blood glucose meter accuracy.</item>
+        <item>Smoking can increase insulin resistance and diabetes complications.</item>
+    </string-array>
+
+    <!-- Fact Messages -->
+    <string-array name="fact_messages">
+        <item>Always rotate injection sites to prevent lipohypertrophy.</item>
+        <item>Store insulin in the refrigerator between 36-46°F (2-8°C).</item>
+        <item>Don\'t shake insulin vials vigorously; roll them gently.</item>
+        <item>Test strips should be stored in their original container.</item>
+        <item>Clean the injection site with alcohol and let it dry completely.</item>
+        <item>Replace lancets daily for accurate readings and comfort.</item>
+        <item>Keep glucose tablets or gel readily available for emergencies.</item>
+        <item>Check blood sugar before driving for safety.</item>
+        <item>Log your readings to track patterns and trends.</item>
+        <item>Don\'t store insulin near freezer compartments.</item>
+        <item>Inspect insulin for changes in color or clarity.</item>
+        <item>Keep testing supplies at room temperature for accuracy.</item>
+        <item>Replace your glucose meter every 2-3 years.</item>
+        <item>Don\'t share blood glucose monitoring devices.</item>
+        <item>Check expiration dates on all diabetes supplies.</item>
+        <item>Carry medical ID indicating you have diabetes.</item>
+        <item>Keep a glucagon kit accessible to family members.</item>
+        <item>Test blood sugar before and after exercise.</item>
+        <item>Don\'t reuse insulin syringes or pen needles.</item>
+        <item>Store test strips away from heat and humidity.</item>
+    </string-array>
+
+    <!-- Scary Messages -->
+    <string-array name="scary_messages">
+        <item>Diabetes is the leading cause of non-traumatic lower limb amputations.</item>
+        <item>Every 30 seconds, someone loses a limb due to diabetes complications.</item>
+        <item>Diabetic retinopathy causes 12,000-24,000 new cases of blindness yearly.</item>
+        <item>Uncontrolled diabetes increases heart attack risk by 400%.</item>
+        <item>70% of diabetics develop nerve damage over time.</item>
+        <item>Diabetes doubles the risk of developing depression.</item>
+        <item>Diabetics have 2.3x higher risk of liver disease.</item>
+        <item>30% of diabetics will develop kidney disease.</item>
+        <item>Diabetes increases the risk of stroke by 150%.</item>
+        <item>50% of diabetics die of cardiovascular disease.</item>
+        <item>Uncontrolled diabetes can lead to permanent nerve damage.</item>
+        <item>Diabetes-related wounds have a 15% amputation rate.</item>
+        <item>High blood sugar can cause permanent brain damage.</item>
+        <item>Diabetics have 3x higher risk of periodontal disease.</item>
+        <item>25% of diabetics develop foot ulcers.</item>
+        <item>Diabetes can reduce life expectancy by up to 10 years.</item>
+        <item>60% of diabetics develop high blood pressure.</item>
+        <item>Uncontrolled diabetes can lead to permanent vision loss.</item>
+        <item>Diabetes increases infection risk by 50%.</item>
+        <item>Diabetic coma can occur within hours of high blood sugar.</item>
+    </string-array>
+
+    <!-- Motivation Messages -->
+    <string-array name="motivation_messages">
+        <item>Every small choice you make today shapes your health tomorrow.</item>
+        <item>Your dedication to health is an investment in your future.</item>
+        <item>You\'re stronger than any challenge diabetes presents.</item>
+        <item>Taking care of yourself is an act of self-love.</item>
+        <item>Small steps lead to big victories in diabetes management.</item>
+        <item>Your health journey is a marathon, not a sprint.</item>
+        <item>Every blood sugar check is a step toward better health.</item>
+        <item>You have the power to control your diabetes journey.</item>
+        <item>Your commitment to health inspires others around you.</item>
+        <item>Today\'s choices create tomorrow\'s victories.</item>
+        <item>You\'re not just managing diabetes; you\'re mastering it.</item>
+        <item>Every healthy decision is a win for your future.</item>
+        <item>Your strength grows with every challenge you overcome.</item>
+        <item>Self-care isn\'t selfish; it\'s necessary.</item>
+        <item>You\'re writing your own health success story.</item>
+        <item>Each day brings a new opportunity for better health.</item>
+        <item>Your dedication to health matters more than perfection.</item>
+        <item>Small victories add up to significant changes.</item>
+        <item>You\'re more resilient than you know.</item>
+        <item>Every step toward health is worth celebrating.</item>
+    </string-array>
+</resources> 

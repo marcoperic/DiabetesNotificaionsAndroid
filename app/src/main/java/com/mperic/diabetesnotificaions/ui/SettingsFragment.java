@@ -69,13 +69,41 @@ public class SettingsFragment extends Fragment {
             billingManager.launchBillingFlow(requireActivity());
         });
 
-        // TODO: Implement checkbox listeners
+        // Category checkboxes
+        setupCategoryCheckbox(categoryHealth, NotificationMessage.Category.HEALTH);
+        setupCategoryCheckbox(categoryRecreation, NotificationMessage.Category.RECREATION);
+        setupCategoryCheckbox(categoryFact, NotificationMessage.Category.FACT);
+        setupCategoryCheckbox(categoryScary, NotificationMessage.Category.SCARY);
+        setupCategoryCheckbox(categoryMotivation, NotificationMessage.Category.MOTIVATION);
+
+        // Notification settings
+        notificationSound.setChecked(preferenceManager.isNotificationSoundEnabled());
+        notificationSound.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            preferenceManager.setNotificationSoundEnabled(isChecked);
+        });
+
+        notificationVibrate.setChecked(preferenceManager.isNotificationVibrateEnabled());
+        notificationVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            preferenceManager.setNotificationVibrateEnabled(isChecked);
+        });
+
+        notificationBanner.setChecked(preferenceManager.isNotificationBannerEnabled());
+        notificationBanner.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            preferenceManager.setNotificationBannerEnabled(isChecked);
+        });
+
         swapNoteTime.setOnCheckedChangeListener((buttonView, isChecked) -> {
             preferenceManager.setNoteTimeSwapped(isChecked);
             // Notify RulesFragment to update its views
             requireActivity().getSupportFragmentManager()
-                .findFragmentByTag("f0")  // Tag for first fragment in ViewPager
-                .onResume();
+                .setFragmentResult("SETTINGS_CHANGED", new Bundle());
+        });
+    }
+
+    private void setupCategoryCheckbox(CheckBox checkbox, NotificationMessage.Category category) {
+        checkbox.setChecked(preferenceManager.isCategoryEnabled(category));
+        checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            preferenceManager.setCategoryEnabled(category, isChecked);
         });
     }
 
