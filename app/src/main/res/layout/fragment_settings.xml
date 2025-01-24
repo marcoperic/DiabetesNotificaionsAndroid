@@ -136,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/upgrade_to_premium"
-                android:layout_gravity="end"/>
+                />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
