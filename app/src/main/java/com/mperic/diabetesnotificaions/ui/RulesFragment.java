@@ -343,9 +343,17 @@ public class RulesFragment extends Fragment {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_rule, null);
         TextInputEditText noteInput = dialogView.findViewById(R.id.noteInput);
         RadioGroup colorRadioGroup = dialogView.findViewById(R.id.colorRadioGroup);
+        View colorSection = dialogView.findViewById(R.id.colorSection);
+        TextView colorPremiumText = dialogView.findViewById(R.id.colorPremiumText);
         
         // Set current values
         noteInput.setText(rule.getNote());
+        
+        boolean isPremium = preferenceManager.isPremium();
+        
+        // Handle color selection visibility
+        colorSection.setVisibility(isPremium ? View.VISIBLE : View.GONE);
+        colorPremiumText.setVisibility(isPremium ? View.GONE : View.VISIBLE);
         
         // Get color resources
         int blueColor = requireContext().getColor(R.color.rule_color_blue);
@@ -354,21 +362,22 @@ public class RulesFragment extends Fragment {
         int orangeColor = requireContext().getColor(R.color.rule_color_orange);
         
         // Set current color
-        int currentColor = rule.getColor();
-        if (currentColor == blueColor) {
-            colorRadioGroup.check(R.id.colorBlue);
-        } else if (currentColor == greenColor) {
-            colorRadioGroup.check(R.id.colorGreen);
-        } else if (currentColor == purpleColor) {
-            colorRadioGroup.check(R.id.colorPurple);
-        } else if (currentColor == orangeColor) {
-            colorRadioGroup.check(R.id.colorOrange);
-        } else {
-            colorRadioGroup.check(R.id.colorDefault);
+        if (isPremium) {
+            int currentColor = rule.getColor();
+            if (currentColor == blueColor) {
+                colorRadioGroup.check(R.id.colorBlue);
+            } else if (currentColor == greenColor) {
+                colorRadioGroup.check(R.id.colorGreen);
+            } else if (currentColor == purpleColor) {
+                colorRadioGroup.check(R.id.colorPurple);
+            } else if (currentColor == orangeColor) {
+                colorRadioGroup.check(R.id.colorOrange);
+            } else {
+                colorRadioGroup.check(R.id.colorDefault);
+            }
         }
         
         CheckBox useNoteAsNotification = dialogView.findViewById(R.id.useNoteAsNotification);
-        boolean isPremium = preferenceManager.isPremium();
         
         useNoteAsNotification.setChecked(rule.isUseNoteAsNotification() && isPremium);
         
@@ -386,24 +395,26 @@ public class RulesFragment extends Fragment {
                 .setView(dialogView)
                 .setPositiveButton("Save", (dialogInterface, i) -> {
                     // Save note
-                    rule.setNote(noteInput.getText() != null ?
+                    rule.setNote(noteInput.getText() != null ? 
                         noteInput.getText().toString() : "");
 
-                    // Save color
-                    int selectedColor;
-                    int checkedId = colorRadioGroup.getCheckedRadioButtonId();
-                    if (checkedId == R.id.colorBlue) {
-                        selectedColor = blueColor;
-                    } else if (checkedId == R.id.colorGreen) {
-                        selectedColor = greenColor;
-                    } else if (checkedId == R.id.colorPurple) {
-                        selectedColor = purpleColor;
-                    } else if (checkedId == R.id.colorOrange) {
-                        selectedColor = orangeColor;
-                    } else {
-                        selectedColor = Color.WHITE;
+                    // Save color if premium
+                    if (isPremium) {
+                        int selectedColor;
+                        int checkedId = colorRadioGroup.getCheckedRadioButtonId();
+                        if (checkedId == R.id.colorBlue) {
+                            selectedColor = blueColor;
+                        } else if (checkedId == R.id.colorGreen) {
+                            selectedColor = greenColor;
+                        } else if (checkedId == R.id.colorPurple) {
+                            selectedColor = purpleColor;
+                        } else if (checkedId == R.id.colorOrange) {
+                            selectedColor = orangeColor;
+                        } else {
+                            selectedColor = Color.WHITE;
+                        }
+                        rule.setColor(selectedColor);
                     }
-                    rule.setColor(selectedColor);
 
                     rule.setUseNoteAsNotification(useNoteAsNotification.isChecked(), isPremium);
 

@@ -27,4 +27,5 @@
     <string name="use_note_as_notification">Use note as notification text</string>
     <string name="premium_note_as_notification">Upgrade to Premium to use notes as notification text</string>
     <string name="premium_required_note">This feature requires Premium</string>
+    <string name="premium_required_colors">Upgrade to Premium to customize rule colors</string>
 </resources>

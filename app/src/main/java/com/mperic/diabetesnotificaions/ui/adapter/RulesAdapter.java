@@ -54,6 +54,11 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
     @Override
     public void onBindViewHolder(@NonNull RuleViewHolder holder, int position) {
         NotificationRule rule = rules.get(position);
+        
+        // Set card background color
+        MaterialCardView cardView = (MaterialCardView) holder.itemView;
+        cardView.setCardBackgroundColor(rule.getColor());
+        
         String timeText;
         
         if (rule.isWindowBased()) {
