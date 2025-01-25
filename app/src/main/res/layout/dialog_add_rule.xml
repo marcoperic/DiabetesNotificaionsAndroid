@@ -199,4 +199,13 @@
         android:layout_marginTop="8dp"
         android:text="Show note as primary text"/>
 
+    <TextView
+        android:id="@+id/showNoteHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textSize="12sp"
+        android:textColor="?android:textColorSecondary"
+        android:visibility="gone"/>
+
 </LinearLayout>

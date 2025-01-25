@@ -206,7 +206,18 @@ public class RulesFragment extends Fragment {
         });
 
         CheckBox showNoteAsPrimary = dialogView.findViewById(R.id.showNoteAsPrimary);
+        TextView showNoteHint = dialogView.findViewById(R.id.showNoteHint);
         
+        boolean globalPreference = preferenceManager.isNoteTimeSwapped();
+        showNoteAsPrimary.setChecked(globalPreference);
+
+        if (globalPreference) {
+            showNoteHint.setText("Note display is enabled globally in settings");
+            showNoteHint.setVisibility(View.VISIBLE);
+        } else {
+            showNoteHint.setVisibility(View.GONE);
+        }
+
         AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.RoundedDialog)
                 .setTitle(R.string.add_notification_rule)
                 .setView(dialogView)
@@ -364,8 +375,17 @@ public class RulesFragment extends Fragment {
         }
 
         CheckBox showNoteAsPrimary = dialogView.findViewById(R.id.showNoteAsPrimary);
-        showNoteAsPrimary.setChecked(rule.isShowNoteAsPrimary());
+        TextView showNoteHint = dialogView.findViewById(R.id.showNoteHint);
+        boolean globalPreference = preferenceManager.isNoteTimeSwapped();
+        showNoteAsPrimary.setChecked(rule.isShowNoteAsPrimary() || globalPreference);
 
+        if (globalPreference) {
+            showNoteHint.setText("Note display is enabled globally in settings");
+            showNoteHint.setVisibility(View.VISIBLE);
+        } else {
+            showNoteHint.setVisibility(View.GONE);
+        }
+        
         // Get color resources
         int blueColor = requireContext().getColor(R.color.rule_color_blue);
         int greenColor = requireContext().getColor(R.color.rule_color_green);
@@ -401,6 +421,38 @@ public class RulesFragment extends Fragment {
             }
         });
         
+        // Initialize category views
+        View categoriesHeader = dialogView.findViewById(R.id.categoriesHeader);
+        View categoriesContent = dialogView.findViewById(R.id.categoriesContent);
+        ImageView expandIcon = dialogView.findViewById(R.id.expandIcon);
+        
+        // Category checkboxes
+        CheckBox categoryHealth = dialogView.findViewById(R.id.categoryHealth);
+        CheckBox categoryFact = dialogView.findViewById(R.id.categoryFact);
+        CheckBox categoryScary = dialogView.findViewById(R.id.categoryScary);
+        CheckBox categoryMotivation = dialogView.findViewById(R.id.categoryMotivation);
+        
+        // Set initial states based on rule's categories
+        Set<NotificationMessage.Category> ruleCategories = rule.getEnabledCategories();
+        
+        categoryFact.setChecked(ruleCategories.contains(NotificationMessage.Category.FACT));
+        categoryHealth.setChecked(ruleCategories.contains(NotificationMessage.Category.HEALTH));
+        categoryScary.setChecked(ruleCategories.contains(NotificationMessage.Category.SCARY));
+        categoryMotivation.setChecked(ruleCategories.contains(NotificationMessage.Category.MOTIVATION));
+        
+        // Handle premium status
+        categoryFact.setEnabled(true);
+        categoryHealth.setEnabled(isPremium);
+        categoryScary.setEnabled(isPremium);
+        categoryMotivation.setEnabled(isPremium);
+        
+        // Setup categories expansion
+        categoriesHeader.setOnClickListener(v -> {
+            boolean isExpanded = categoriesContent.getVisibility() == View.VISIBLE;
+            categoriesContent.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
+            expandIcon.setRotation(isExpanded ? 0 : 180);
+        });
+
         AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.RoundedDialog)
                 .setTitle("Edit Rule")
                 .setView(dialogView)
@@ -429,6 +481,15 @@ public class RulesFragment extends Fragment {
 
                     rule.setUseNoteAsNotification(useNoteAsNotification.isChecked(), isPremium);
                     rule.setShowNoteAsPrimary(showNoteAsPrimary.isChecked());
+
+                    // Save categories
+                    Set<NotificationMessage.Category> selectedCategories = new HashSet<>();
+                    if (categoryHealth.isChecked()) selectedCategories.add(NotificationMessage.Category.HEALTH);
+                    if (categoryFact.isChecked()) selectedCategories.add(NotificationMessage.Category.FACT);
+                    if (categoryScary.isChecked()) selectedCategories.add(NotificationMessage.Category.SCARY);
+                    if (categoryMotivation.isChecked()) selectedCategories.add(NotificationMessage.Category.MOTIVATION);
+                    
+                    rule.setEnabledCategories(selectedCategories);
 
                     schedulingManager.saveRule(rule);
                     updateRulesList();

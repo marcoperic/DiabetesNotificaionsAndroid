@@ -31,6 +31,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Show note as primary text"/>
+
+        <TextView
+            android:id="@+id/showNoteHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:textSize="12sp"
+            android:textColor="?android:textColorSecondary"
+            android:visibility="gone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -103,5 +112,78 @@
         android:text="@string/premium_required_colors"
         android:textColor="?android:textColorSecondary"
         android:visibility="gone"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/categoriesHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/notification_categories"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/expandIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_expand_more"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/categoriesContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <CheckBox
+                    android:id="@+id/categoryFact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_fact"
+                    android:checked="true"/>
+
+                <CheckBox
+                    android:id="@+id/categoryHealth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_health"
+                    android:enabled="false"/>
+
+                <CheckBox
+                    android:id="@+id/categoryScary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_scary"
+                    android:enabled="false"/>
+
+                <CheckBox
+                    android:id="@+id/categoryMotivation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_motivation"
+                    android:enabled="false"/>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
