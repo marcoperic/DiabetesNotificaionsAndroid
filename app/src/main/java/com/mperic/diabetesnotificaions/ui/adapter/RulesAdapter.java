@@ -73,7 +73,7 @@ public class RulesAdapter extends RecyclerView.Adapter<RulesAdapter.RuleViewHold
         String noteText = rule.getNote();
         boolean hasNote = noteText != null && !noteText.isEmpty();
         
-        if (preferenceManager.isNoteTimeSwapped() && hasNote) {
+        if ((rule.isShowNoteAsPrimary() || preferenceManager.isNoteTimeSwapped()) && hasNote) {
             // Swap the time and note display
             holder.timeText.setText(noteText);
             holder.noteText.setText(timeText);

@@ -205,6 +205,8 @@ public class RulesFragment extends Fragment {
             }
         });
 
+        CheckBox showNoteAsPrimary = dialogView.findViewById(R.id.showNoteAsPrimary);
+        
         AlertDialog dialog = new AlertDialog.Builder(requireContext(), R.style.RoundedDialog)
                 .setTitle(R.string.add_notification_rule)
                 .setView(dialogView)
@@ -268,6 +270,7 @@ public class RulesFragment extends Fragment {
                 );
                 rule.setNote(note);
                 rule.setUseNoteAsNotification(useNoteAsNotification.isChecked(), isPremium);
+                rule.setShowNoteAsPrimary(showNoteAsPrimary.isChecked());
                 
                 Set<NotificationMessage.Category> selectedCategories = new HashSet<>();
                 if (categoryHealth.isChecked()) selectedCategories.add(NotificationMessage.Category.HEALTH);
@@ -352,9 +355,17 @@ public class RulesFragment extends Fragment {
         boolean isPremium = preferenceManager.isPremium();
         
         // Handle color selection visibility
-        colorSection.setVisibility(isPremium ? View.VISIBLE : View.GONE);
+        colorSection.setVisibility(View.VISIBLE); // Always show colors
         colorPremiumText.setVisibility(isPremium ? View.GONE : View.VISIBLE);
         
+        // Disable radio buttons for non-premium users
+        for (int i = 0; i < colorRadioGroup.getChildCount(); i++) {
+            colorRadioGroup.getChildAt(i).setEnabled(isPremium);
+        }
+
+        CheckBox showNoteAsPrimary = dialogView.findViewById(R.id.showNoteAsPrimary);
+        showNoteAsPrimary.setChecked(rule.isShowNoteAsPrimary());
+
         // Get color resources
         int blueColor = requireContext().getColor(R.color.rule_color_blue);
         int greenColor = requireContext().getColor(R.color.rule_color_green);
@@ -417,6 +428,7 @@ public class RulesFragment extends Fragment {
                     }
 
                     rule.setUseNoteAsNotification(useNoteAsNotification.isChecked(), isPremium);
+                    rule.setShowNoteAsPrimary(showNoteAsPrimary.isChecked());
 
                     schedulingManager.saveRule(rule);
                     updateRulesList();

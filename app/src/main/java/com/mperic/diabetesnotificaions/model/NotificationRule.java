@@ -15,6 +15,7 @@ public class NotificationRule {
     private int color;
     private boolean useNoteAsNotification;
     private Set<NotificationMessage.Category> enabledCategories;
+    private boolean showNoteAsPrimary;
     
     public NotificationRule(int id, LocalTime startTime, LocalTime endTime, boolean isWindowBased) {
         this.id = id;
@@ -25,6 +26,7 @@ public class NotificationRule {
         this.note = "";
         this.color = Color.WHITE; // Default color
         this.enabledCategories = new HashSet<>();
+        this.showNoteAsPrimary = false;
     }
 
     // Getters and setters
@@ -55,5 +57,13 @@ public class NotificationRule {
 
     public boolean hasCustomCategories() {
         return !enabledCategories.isEmpty();
+    }
+
+    public boolean isShowNoteAsPrimary() {
+        return showNoteAsPrimary;
+    }
+
+    public void setShowNoteAsPrimary(boolean showNoteAsPrimary) {
+        this.showNoteAsPrimary = showNoteAsPrimary;
     }
 } 
