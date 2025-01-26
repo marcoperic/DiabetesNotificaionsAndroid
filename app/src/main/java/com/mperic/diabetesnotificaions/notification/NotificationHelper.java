@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 
 import androidx.core.app.NotificationCompat;
 
@@ -53,7 +54,8 @@ public class NotificationHelper {
 
     public void showNotification(String message, int notificationId) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, DiabetesApp.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_logo)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_logo))
                 .setContentTitle("Diabetes Reminder")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
